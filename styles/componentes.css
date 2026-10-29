@@ -1,0 +1,305 @@
+/* ==========================================================================
+   componentes.css — cabeçalho, painéis, palavra, teclado, boneco e ações
+   ========================================================================== */
+
+/* ---------- Cabeçalho ---------- */
+
+.cabecalho {
+  max-width: 960px;
+  margin: 0 auto var(--space-4);
+  text-align: center;
+}
+
+.cabecalho__subtitulo {
+  margin-top: var(--space-1);
+  color: var(--color-muted);
+}
+
+/* ---------- Grade da página (mobile first: uma coluna) ---------- */
+
+.jogo {
+  display: grid;
+  grid-template-areas:
+    "boneco"
+    "palavra"
+    "teclado"
+    "acoes"
+    "regras";
+  gap: var(--space-3);
+  max-width: 960px;
+  margin: 0 auto;
+  padding-bottom: var(--space-4);
+}
+
+.painel--boneco {
+  grid-area: boneco;
+}
+
+.painel--palavra {
+  grid-area: palavra;
+}
+
+.painel--teclado {
+  grid-area: teclado;
+}
+
+.painel--acoes {
+  grid-area: acoes;
+}
+
+.painel--regras {
+  grid-area: regras;
+}
+
+/* ---------- Painel ---------- */
+
+.painel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.painel__categoria {
+  color: var(--color-muted);
+}
+
+.painel__categoria strong {
+  color: var(--color-text);
+}
+
+/* ---------- Boneco ---------- */
+
+.boneco {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.boneco__estrutura line {
+  stroke: var(--color-muted);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.boneco__parte {
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 6;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.boneco--erro-1 :is([data-parte="cabeca"]),
+.boneco--erro-2 :is([data-parte="cabeca"], [data-parte="corpo"]),
+.boneco--erro-3 :is([data-parte="cabeca"], [data-parte="corpo"], [data-parte="braco-esq"]),
+.boneco--erro-4 :is([data-parte="cabeca"], [data-parte="corpo"], [data-parte="braco-esq"], [data-parte="braco-dir"]),
+.boneco--erro-5 :is([data-parte="cabeca"], [data-parte="corpo"], [data-parte="braco-esq"], [data-parte="braco-dir"], [data-parte="perna-esq"]),
+.boneco--erro-6 :is([data-parte="cabeca"], [data-parte="corpo"], [data-parte="braco-esq"], [data-parte="braco-dir"], [data-parte="perna-esq"], [data-parte="perna-dir"]) {
+  opacity: 1;
+}
+
+body.estado-derrota .boneco__parte {
+  stroke: var(--color-error);
+}
+
+/* ---------- Palavra ---------- */
+
+.palavra {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+}
+
+.palavra__letra {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 1.15ch;
+  min-height: 1.4em;
+  border-bottom: 3px solid var(--color-border);
+}
+
+.palavra__letra--oculta {
+  color: var(--color-muted);
+}
+
+.palavra__letra--revelada {
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent);
+}
+
+.palavra__letra--perdida {
+  color: var(--color-error);
+  border-bottom-color: var(--color-error);
+}
+
+.palavra__letra--separador {
+  min-width: 0.6ch;
+  border-bottom-color: transparent;
+  color: var(--color-muted);
+}
+
+/* ---------- Status e tentativas ---------- */
+
+.status {
+  min-height: 2.9em;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent-soft);
+  color: var(--color-text);
+  text-align: center;
+}
+
+body.estado-vitoria .status {
+  background-color: var(--color-correct-soft);
+  color: var(--color-correct);
+  font-weight: 700;
+}
+
+body.estado-derrota .status {
+  background-color: var(--color-error-soft);
+  color: var(--color-error);
+  font-weight: 700;
+}
+
+.tentativas {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* ---------- Teclado virtual ---------- */
+
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2.75rem, 1fr));
+  gap: var(--space-2);
+}
+
+.teclado__tecla {
+  min-height: 44px;
+  aspect-ratio: 1 / 1;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.teclado__tecla:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+}
+
+.teclado__tecla:active:not(:disabled) {
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+}
+
+.teclado__tecla:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.teclado__tecla--certa {
+  border-color: var(--color-correct);
+  background-color: var(--color-correct-soft);
+  color: var(--color-correct);
+}
+
+.teclado__tecla--errada {
+  border-color: var(--color-error);
+  background-color: var(--color-error-soft);
+  color: var(--color-error);
+  text-decoration: line-through;
+}
+
+/* ---------- Ações ---------- */
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.botao {
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.botao:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+}
+
+.botao--primario {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+}
+
+.botao--primario:hover {
+  border-color: var(--color-text);
+  background-color: var(--color-text);
+}
+
+.estatisticas {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Regras ---------- */
+
+.regras {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: 1.1em;
+  list-style: disc;
+  color: var(--color-muted);
+}
+
+.regras strong {
+  color: var(--color-text);
+}
+
+/* ---------- Rodapé ---------- */
+
+.rodape {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-bottom: var(--space-4);
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* ---------- Movimento reduzido ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .boneco__parte,
+  .teclado__tecla,
+  .botao {
+    transition: none;
+  }
+}

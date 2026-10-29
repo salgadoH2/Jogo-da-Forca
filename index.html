@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Jogo da forca em português: adivinhe a palavra antes de completar o boneco. Jogável com mouse ou teclado.">
+  <meta name="theme-color" content="#2f4b8f">
+  <title>Jogo da Forca</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/componentes.css">
+  <link rel="stylesheet" href="styles/responsivo.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body class="estado-jogando">
+  <a class="pular-para-conteudo" href="#conteudo">Pular para o jogo</a>
+
+  <header class="cabecalho">
+    <h1 class="cabecalho__titulo">Jogo da Forca</h1>
+    <p class="cabecalho__subtitulo">Adivinhe a palavra antes que o boneco fique completo.</p>
+  </header>
+
+  <main id="conteudo" class="jogo">
+    <section class="painel painel--boneco" aria-labelledby="titulo-boneco">
+      <h2 class="painel__titulo" id="titulo-boneco">Boneco</h2>
+      <svg id="boneco" class="boneco" viewBox="0 0 200 220" role="img"
+           aria-labelledby="boneco-titulo boneco-desc">
+        <title id="boneco-titulo">Boneco da forca</title>
+        <desc id="boneco-desc">O boneco ganha uma parte a cada letra errada. Ao completar seis partes, a partida termina.</desc>
+        <g class="boneco__estrutura">
+          <line x1="24" y1="200" x2="176" y2="200"></line>
+          <line x1="70" y1="200" x2="70" y2="18"></line>
+          <line x1="68" y1="20" x2="140" y2="20"></line>
+          <line x1="140" y1="20" x2="140" y2="44"></line>
+        </g>
+        <g class="boneco__partes">
+          <circle class="boneco__parte" data-parte="cabeca" cx="140" cy="64" r="20"></circle>
+          <line class="boneco__parte" data-parte="corpo" x1="140" y1="84" x2="140" y2="140"></line>
+          <line class="boneco__parte" data-parte="braco-esq" x1="140" y1="98" x2="110" y2="124"></line>
+          <line class="boneco__parte" data-parte="braco-dir" x1="140" y1="98" x2="170" y2="124"></line>
+          <line class="boneco__parte" data-parte="perna-esq" x1="140" y1="140" x2="114" y2="182"></line>
+          <line class="boneco__parte" data-parte="perna-dir" x1="140" y1="140" x2="166" y2="182"></line>
+        </g>
+      </svg>
+    </section>
+
+    <section class="painel painel--palavra" aria-labelledby="titulo-palavra">
+      <h2 class="painel__titulo" id="titulo-palavra">Palavra</h2>
+      <p class="palavra" id="palavra" role="group" aria-label="Palavra secreta"></p>
+      <p class="status" id="status" role="status" aria-live="polite">Escolha uma letra para começar.</p>
+      <p class="tentativas" id="tentativas">Erros: 0 de 6</p>
+    </section>
+
+    <section class="painel painel--teclado" aria-labelledby="titulo-teclado">
+      <h2 class="painel__titulo" id="titulo-teclado">Teclado</h2>
+      <div class="teclado" id="teclado" role="group" aria-labelledby="titulo-teclado">
+        <button type="button" class="teclado__tecla" data-letra="A">A</button>
+        <button type="button" class="teclado__tecla" data-letra="B">B</button>
+        <button type="button" class="teclado__tecla" data-letra="C">C</button>
+        <button type="button" class="teclado__tecla" data-letra="D">D</button>
+        <button type="button" class="teclado__tecla" data-letra="E">E</button>
+        <button type="button" class="teclado__tecla" data-letra="F">F</button>
+        <button type="button" class="teclado__tecla" data-letra="G">G</button>
+        <button type="button" class="teclado__tecla" data-letra="H">H</button>
+        <button type="button" class="teclado__tecla" data-letra="I">I</button>
+        <button type="button" class="teclado__tecla" data-letra="J">J</button>
+        <button type="button" class="teclado__tecla" data-letra="K">K</button>
+        <button type="button" class="teclado__tecla" data-letra="L">L</button>
+        <button type="button" class="teclado__tecla" data-letra="M">M</button>
+        <button type="button" class="teclado__tecla" data-letra="N">N</button>
+        <button type="button" class="teclado__tecla" data-letra="O">O</button>
+        <button type="button" class="teclado__tecla" data-letra="P">P</button>
+        <button type="button" class="teclado__tecla" data-letra="Q">Q</button>
+        <button type="button" class="teclado__tecla" data-letra="R">R</button>
+        <button type="button" class="teclado__tecla" data-letra="S">S</button>
+        <button type="button" class="teclado__tecla" data-letra="T">T</button>
+        <button type="button" class="teclado__tecla" data-letra="U">U</button>
+        <button type="button" class="teclado__tecla" data-letra="V">V</button>
+        <button type="button" class="teclado__tecla" data-letra="W">W</button>
+        <button type="button" class="teclado__tecla" data-letra="X">X</button>
+        <button type="button" class="teclado__tecla" data-letra="Y">Y</button>
+        <button type="button" class="teclado__tecla" data-letra="Z">Z</button>
+      </div>
+    </section>
+
+    <section class="painel painel--acoes" aria-labelledby="titulo-acoes">
+      <h2 class="painel__titulo" id="titulo-acoes">Partida</h2>
+      <p class="painel__categoria">Categoria: <strong id="categoria-atual">Animais</strong></p>
+      <div class="acoes">
+        <button type="button" class="botao botao--primario" id="botao-novo-jogo">Novo jogo</button>
+        <button type="button" class="botao" id="botao-categoria">Trocar categoria</button>
+      </div>
+      <p class="estatisticas" id="estatisticas">Partidas: 0 · Vitórias: 0 · Derrotas: 0</p>
+    </section>
+
+    <section class="painel painel--regras" id="regras" aria-labelledby="titulo-regras">
+      <h2 class="painel__titulo" id="titulo-regras">Como jogar</h2>
+      <ul class="regras">
+        <li>Escolha uma letra no teclado da tela ou use o teclado do computador.</li>
+        <li>Cada letra errada desenha uma parte do boneco. São seis erros no total.</li>
+        <li>Acentos não importam: <strong>C</strong> também vale para <strong>Ç</strong>.</li>
+        <li>Espaços e hífens já aparecem revelados.</li>
+        <li>Vença descobrindo a palavra antes de completar o boneco.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Feito com HTML, CSS e JavaScript puro. Sem instalação, sem cadastro.</p>
+  </footer>
+
+  <noscript>
+    <p class="aviso-sem-js">Este jogo precisa de JavaScript ativado para funcionar.</p>
+  </noscript>
+</body>
+</html>
